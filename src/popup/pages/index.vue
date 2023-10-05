@@ -1,5 +1,20 @@
 <script setup lang="ts">
 import IconPlus from '~icons/mdi/plus'
+import { useNow, useDateFormat } from '@vueuse/core';
+import { watchEffect } from 'vue';
+
+const progress = ref(0)
+
+const watcherDisposer = watchEffect(() => {
+  setInterval(() => {
+    progress.value = ((Number(useDateFormat(useNow(), 'mm').value)) / 60)
+    console.log(progress.value)
+  }, 1000);
+})
+
+onUnmounted(() => {
+  watcherDisposer && watcherDisposer()
+})
 
 chrome.identity.launchWebAuthFlow(
   {
@@ -41,19 +56,24 @@ chrome.identity.launchWebAuthFlow(
         <IconPlus />
       </button>
     </div>
-    <div class="countdownBar absolute right-0 top-0 w-5/6 h-0.5 bg-white"></div>
+    <div class="countdownBar absolute right-0 top-0 w-5/6 h-0.5 bg-white" :style="{ top: `${progress * 48}px` }">
+    </div>
 
   </div>
 </template>
 
 <style scoped>
-.countdownBar::before{
+.countdownBar {
+  transform: translateY(--countdown-progress);
+}
+
+.countdownBar::before {
   content: '';
   position: absolute;
   top: -50%;
   left: 0;
-  width: 10px;
-  height: 10px;
+  width: 5px;
+  height: 5px;
   border-radius: 9999px;
   background-color: white;
 }
