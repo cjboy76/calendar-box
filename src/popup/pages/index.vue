@@ -36,7 +36,7 @@ chrome.identity.launchWebAuthFlow(
   <div class="bg-slate-800 relative py-1">
     <div v-for="num of 5" :key="num" class="grid grid-cols-5 border-t border-slate-500">
       <div class="col-span-1">
-        <h3 class="text-center">{{ num + currentHour }} {{ num + currentHour > 23 ? 'AM' : 'PM' }}</h3>
+        <h3 class="text-center">{{ num + currentHour - 1 }} {{ num + currentHour > 23 ? 'AM' : 'PM' }}</h3>
       </div>
       <div class="col-span-4 h-12"> current Block</div>
     </div>
