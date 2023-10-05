@@ -56,7 +56,7 @@ chrome.identity.launchWebAuthFlow(
         <IconPlus />
       </button>
     </div>
-    <div class="countdownBar absolute right-0 top-0 w-5/6 h-0.5 bg-white" :style="{ top: `${progress * 48}px` }">
+    <div class="countdownBar absolute right-3 top-0 w-4/5 h-0.5 bg-white" :style="{ top: `${progress * 48}px` }">
     </div>
 
   </div>
@@ -70,8 +70,9 @@ chrome.identity.launchWebAuthFlow(
 .countdownBar::before {
   content: '';
   position: absolute;
-  top: -50%;
+  top: 50%;
   left: 0;
+  transform: translate(-50%, -50%);
   width: 5px;
   height: 5px;
   border-radius: 9999px;
