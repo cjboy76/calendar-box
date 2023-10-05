@@ -18,19 +18,19 @@ chrome.identity.launchWebAuthFlow(
 
 <template>
   <div class="bg-slate-800 relative">
-    <div class="grid grid-cols-5 border-t-2 border-slate-300">
+    <div class="grid grid-cols-5 border-t border-slate-500">
       <div class="col-span-1">
         <h3 class="text-center">5 PM</h3>
       </div>
       <div class="col-span-4 h-12"> current Block</div>
     </div>
-    <div class="grid grid-cols-5 border-t-2 border-slate-300">
+    <div class="grid grid-cols-5 border-t-2 border-slate-500">
       <div class="col-span-1">
         <h3 class="text-center">6 PM</h3>
       </div>
       <div class="col-span-4 h-12"> current Block</div>
     </div>
-    <div class="grid grid-cols-5 border-t-2 border-slate-300">
+    <div class="grid grid-cols-5 border-t-2 border-slate-500">
       <div class="col-span-1">
         <h3 class="text-center">7 PM</h3>
       </div>
@@ -41,20 +41,20 @@ chrome.identity.launchWebAuthFlow(
         <IconPlus />
       </button>
     </div>
+    <div class="countdownBar absolute right-0 top-0 w-5/6 h-0.5 bg-white"></div>
+
   </div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+.countdownBar::before{
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background-color: white;
 }
 </style>
