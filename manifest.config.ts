@@ -46,4 +46,10 @@ export default defineManifest(async (env) => ({
       resources: ['src/content-script/iframe/index.html'],
     },
   ],
+  "oauth2": {
+    "client_id": "875490864345-fsru24vq5kovku834kjf16cget9lsecf.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.readonly"
+    ]
+  },
 }))
