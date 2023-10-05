@@ -8,9 +8,10 @@ const progress = ref(0)
 const watcherDisposer = watchEffect(() => {
   setInterval(() => {
     progress.value = ((Number(useDateFormat(useNow(), 'mm').value)) / 60)
-    console.log(progress.value)
   }, 1000);
 })
+
+const currentHour = Number(useDateFormat(useNow(), 'HH').value)
 
 onUnmounted(() => {
   watcherDisposer && watcherDisposer()
@@ -32,22 +33,10 @@ chrome.identity.launchWebAuthFlow(
 </script>
 
 <template>
-  <div class="bg-slate-800 relative">
-    <div class="grid grid-cols-5 border-t border-slate-500">
+  <div class="bg-slate-800 relative py-1">
+    <div v-for="num of 5" :key="num" class="grid grid-cols-5 border-t border-slate-500">
       <div class="col-span-1">
-        <h3 class="text-center">5 PM</h3>
-      </div>
-      <div class="col-span-4 h-12"> current Block</div>
-    </div>
-    <div class="grid grid-cols-5 border-t-2 border-slate-500">
-      <div class="col-span-1">
-        <h3 class="text-center">6 PM</h3>
-      </div>
-      <div class="col-span-4 h-12"> current Block</div>
-    </div>
-    <div class="grid grid-cols-5 border-t-2 border-slate-500">
-      <div class="col-span-1">
-        <h3 class="text-center">7 PM</h3>
+        <h3 class="text-center">{{ num + currentHour }} {{ num + currentHour > 23 ? 'AM' : 'PM' }}</h3>
       </div>
       <div class="col-span-4 h-12"> current Block</div>
     </div>
@@ -56,7 +45,7 @@ chrome.identity.launchWebAuthFlow(
         <IconPlus />
       </button>
     </div>
-    <div class="countdownBar absolute right-3 top-0 w-4/5 h-0.5 bg-white" :style="{ top: `${progress * 48}px` }">
+    <div class="countdownBar absolute right-1  top-0 w-4/5 h-0.5 bg-white" :style="{ top: `${progress * 48}px` }">
     </div>
 
   </div>
