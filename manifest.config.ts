@@ -34,6 +34,7 @@ export default defineManifest(async (env) => ({
     },
   ],
   host_permissions: ['*://*/*'],
+  key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwo1YEzGrpQE81PQfLS7qJbYJ+WWcG3k8/0Sqa8lcEh/rHnHsfLlDTumymNmNobvnx4ZBgPXXGr6lo6OiBpHiYdGimoxNAUey/BrRAlv2IeAqqoE+gAZZbtG59Dm10OX1F4qMgqkl3iznuC6u+jpdBeyj7vJQJSF53d1uXV36ePj6Kif/CRtbUyc+wdI8QjOMlfoE0AYVKxlNjRkr6DZEUrcGNJm2JbFp1H5CofzXcXzZxCEv9m6Th0GRMtB5M1H8Fu8LNPn2K4StWSPthy+1UB55JRyt1amoNUQbVDmRBPpkzjECeOg0AAxSZxXqOQJLE/LUanz+yScP7dxjjwxIfQIDAQAB",
   options_page: 'src/options/index.html',
   permissions: ['storage', 'activeTab', 'identity'],
   web_accessible_resources: [
@@ -47,8 +48,10 @@ export default defineManifest(async (env) => ({
     },
   ],
   "oauth2": {
-    "client_id": "875490864345-fsru24vq5kovku834kjf16cget9lsecf.apps.googleusercontent.com",
+    "client_id": "875490864345-l9cc8npntim6kn8igq2ihgjt65qcpo5b.apps.googleusercontent.com",
     "scopes": [
+      "openid profile email",
+      "https://www.googleapis.com/auth/userinfo.email",
       "https://www.googleapis.com/auth/calendar.readonly"
     ]
   },

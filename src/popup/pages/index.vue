@@ -5,6 +5,7 @@ const tokenRef = ref("hello world")
 
 const login = () => {
   tokenRef.value = "hello kitty"
+  chrome.runtime.sendMessage({message: 'get_access_token'})
 }
 </script>
 

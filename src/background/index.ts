@@ -9,4 +9,13 @@ chrome.runtime.onInstalled.addListener(async (opt) => {
   }
 })
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.message === 'get_access_token') {
+    chrome.identity.getAuthToken({ interactive: true }, (access_token) => {
+      console.log(access_token)
+    })
+    sendResponse(true)
+  }
+})
+
 export { }
