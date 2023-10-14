@@ -5,7 +5,9 @@ const tokenRef = ref("hello world")
 
 const login = () => {
   tokenRef.value = "hello kitty"
-  chrome.runtime.sendMessage({message: 'get_access_token'})
+  chrome.runtime.sendMessage({message: 'get_events'}, (response) => {
+    console.log("lity response", response)
+  })
 }
 </script>
 
