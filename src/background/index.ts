@@ -20,7 +20,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   }
 
   if (request.message === 'get_events') {
-    chrome.identity.getAuthToken({ interactive: true }, async (token) => {
+    chrome.identity.getAuthToken({ interactive: true }, (token) => {
+      console.log({ token })
       const currentDate = new Date()
       const timeMin = currentDate.toISOString()
       currentDate.setHours(currentDate.getHours() + 5);

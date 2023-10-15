@@ -5,6 +5,10 @@ import { watchEffect } from 'vue';
 
 const progress = ref(0)
 
+chrome.runtime.sendMessage({message: 'get_events'}, (response) => {
+    console.log("lity response", response)
+  })
+
 const watcherDisposer = watchEffect(() => {
     setInterval(() => {
         progress.value = ((Number(useDateFormat(useNow(), 'mm').value)) / 60)
@@ -16,20 +20,6 @@ const currentHour = Number(useDateFormat(useNow(), 'HH').value)
 onUnmounted(() => {
     watcherDisposer && watcherDisposer()
 })
-
-// chrome.identity.launchWebAuthFlow(
-//     {
-//         interactive: true,
-//         url:
-//             `https://github.com/login/oauth/authorize` +
-//             `?client_id=55e294602d71eb006dc505540cf0614d6b3c7f35` +
-//             `&redirect_uri=https://ekgmcbpgglflmgcfajnglpbcbdccnnje.chromiumapp.org/github_cb` +
-//             `&scope=user.email`,
-//     },
-//     (a) => {
-//         console.log(a)
-//     }
-// )
 </script>
 
 <template>
