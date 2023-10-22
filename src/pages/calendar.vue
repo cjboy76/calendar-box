@@ -94,7 +94,7 @@ onUnmounted(() => {
                 <IconPlus />
             </button>
         </div>
-        <div class="countdownBar absolute right-1  top-0 w-4/5 h-0.5 bg-white" :style="{ top: `${progress * 48}px` }">
+        <div class="countdownBar absolute right-1  top-0 w-4/5 h-0.5 bg-white z-50" :style="{ top: `${progress * 48}px` }">
         </div>
 
     </div>
