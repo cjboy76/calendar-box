@@ -2,12 +2,60 @@
 import IconPlus from '~icons/mdi/plus'
 import { useNow, useDateFormat } from '@vueuse/core';
 import { watchEffect } from 'vue';
+import { type Calendar } from '@/common';
+
+type EventBlock = {
+    startPercentage: number;
+    span: number;
+    summary: string;
+    creator: string
+}
 
 const progress = ref(0)
+const currentHour = Number(useDateFormat(useNow(), 'HH').value)
+let eventBlocks = reactive<EventBlock[][]>([])
+eventBlocks = Array.from({ length: 5 }, () => [])
 
-chrome.runtime.sendMessage({message: 'get_events'}, (response) => {
-    console.log("lity response", response)
-  })
+const getEvents = async () => {
+    const calendar = await new Promise<Calendar>((resolve) => {
+        chrome.runtime.sendMessage({ message: 'get_events' }, (response) => {
+            resolve(response)
+        })
+    });
+
+    return calendar.items.map(item => {
+        return {
+            ...item,
+            timeDiff: getTimeDiff(item.start.dateTime, item.end.dateTime)
+        }
+    })
+
+}
+
+const generateEventBlocks = async () => {
+    const events = await getEvents()
+
+    events.forEach(event => {
+        const eventMinute = useDateFormat(event.start.dateTime, "mm")
+        const index = Number(useDateFormat(event.start.dateTime, "HH").value) - currentHour
+
+        const list = eventBlocks[index] ?? []
+        const block = {
+            startPercentage: Number(eventMinute.value) / 60 * 100,
+            span: event.timeDiff,
+            summary: event.summary,
+            creator: event.creator.email
+        }
+        eventBlocks[index] = [...list, block]
+    })
+}
+
+generateEventBlocks()
+
+const getTimeDiff = (startTime: string, endTime: string, unit = (1000 * 60 * 60)) => {
+    const diff = new Date(endTime).getTime() - new Date(startTime).getTime()
+    return diff / unit
+}
 
 const watcherDisposer = watchEffect(() => {
     setInterval(() => {
@@ -15,10 +63,8 @@ const watcherDisposer = watchEffect(() => {
     }, 1000);
 })
 
-const currentHour = Number(useDateFormat(useNow(), 'HH').value)
-
-const timeFormatter = (number:number) => {
-    if(number < 24) return number
+const timeFormatter = (number: number) => {
+    if (number < 24) return number
     return number - 24
 }
 
@@ -28,12 +74,19 @@ onUnmounted(() => {
 </script>
 
 <template>
-    <div class="bg-slate-800 relative py-1">
-        <div v-for="num of 5" :key="num" class="grid grid-cols-5 border-t border-slate-500">
+    <div class="bg-gray-800">
+        <div v-for="num of 5" :key="num" class="grid grid-cols-5 border-t border-slate-500 h-12">
             <div class="col-span-1">
-                <h3 class="text-center">{{ timeFormatter(num + currentHour - 1) }} {{ (num + currentHour) > 24 ? 'AM' : 'PM' }}</h3>
+                <h3 class="text-center">{{ timeFormatter(num + currentHour - 1) }} {{ (num + currentHour) > 24 ? 'AM' : 'PM'
+                }}</h3>
             </div>
-            <div class="col-span-4 h-12"> current Block</div>
+            <div class="col-span-4 relative">
+                <div v-for="(event, evnetIndex) of eventBlocks[num - 1]" :key="event.summary"
+                    class="absolute min-w-min left-0 bg-gray-600 text-white p-1 rounded-sm"
+                    :style="{ 'top': event.startPercentage + '%', 'zIndex': evnetIndex }">
+                    {{ event.summary }}
+                </div>
+            </div>
         </div>
         <div class="absolute bottom-3 right-3">
             <button
