@@ -1,4 +1,4 @@
-const API_KEY = 'AIzaSyDf5Mj605RVFn8nCJLoCuOeJl1HG7H3tSE'
+const API_KEY = import.meta.env.VITE_API_KEY
 
 chrome.runtime.onInstalled.addListener(async (opt) => {
   if (opt.reason === 'install') {
