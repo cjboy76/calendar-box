@@ -7,6 +7,7 @@ export type CalendarItem = {
     }
     etag: string,
     eventType: string,
+    hangoutLink?: string
     htmlLink: string
     iCalUID: string
     id: string

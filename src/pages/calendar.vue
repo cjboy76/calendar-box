@@ -6,9 +6,10 @@ import { type Calendar } from '@/common';
 
 type EventBlock = {
     startPercentage: number;
-    span: number;
     summary: string;
     creator: string
+    htmlLink: string
+    hangoutLink?: string
 }
 
 const progress = ref(0)
@@ -22,7 +23,7 @@ const getEvents = async () => {
             resolve(response)
         })
     });
-
+    console.log(calendar)
     return calendar.items.map(item => {
         return {
             ...item,
@@ -42,9 +43,10 @@ const generateEventBlocks = async () => {
         const list = eventBlocks[index] ?? []
         const block = {
             startPercentage: Number(eventMinute.value) / 60 * 100,
-            span: event.timeDiff,
             summary: event.summary,
-            creator: event.creator.email
+            creator: event.creator.email,
+            htmlLink: event.htmlLink,
+            hangoutLink: event.hangoutLink || ""
         }
         eventBlocks[index] = [...list, block]
     })
@@ -68,6 +70,16 @@ const timeFormatter = (number: number) => {
     return number - 24
 }
 
+const hangoutLinkHandler = (event: EventBlock) => {
+    if (!event.hangoutLink) return
+    chrome.tabs.create({ url: event.hangoutLink })
+}
+
+const htmlLinkHandler = (event: EventBlock) => {
+    if (!event.htmlLink) return
+    chrome.tabs.create({ url: event.htmlLink })
+}
+
 onUnmounted(() => {
     watcherDisposer && watcherDisposer()
 })
@@ -82,9 +94,11 @@ onUnmounted(() => {
             </div>
             <div class="col-span-4 relative">
                 <div v-for="(event, evnetIndex) of eventBlocks[num - 1]" :key="event.summary"
-                    class="absolute min-w-min left-0 bg-gray-600 text-white p-1 rounded-sm"
-                    :style="{ 'top': event.startPercentage + '%', 'zIndex': evnetIndex }">
+                    class="absolute min-w-min left-0 bg-gray-600 text-white p-1 rounded-sm flex justify-center items-center cursor-pointer"
+                    :style="{ 'top': event.startPercentage + '%', 'zIndex': evnetIndex }"
+                    @click.self="htmlLinkHandler(event)">
                     {{ event.summary }}
+                    <CameraIcon v-show="event.hangoutLink" class="mx-1 cursor-pointer" @click="hangoutLinkHandler(event)" />
                 </div>
             </div>
         </div>
