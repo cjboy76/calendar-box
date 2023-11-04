@@ -47,7 +47,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       }
 
       fetch(url, config).then(r => r.json()).then(data => {
-        sendResponse({ status: 'success', data })
+        const status = data.error ? 'failed' : 'success'
+        sendResponse({ status, data })
       })
     })
   }
