@@ -79,13 +79,6 @@ export default ({ mode }) => {
         },
       },
     ],
-    build: {
-      rollupOptions: {
-        input: {
-          iframe: 'src/content-script/iframe/index.html',
-        },
-      },
-    },
     server: {
       port: 8888,
       strictPort: true,
