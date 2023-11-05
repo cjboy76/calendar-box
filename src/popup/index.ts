@@ -16,7 +16,6 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  console.log({ to })
   chrome.runtime.sendMessage({ message: 'check_access_token' }, (response) => {
     if (response.status !== 'success') {
       return next('/popup')

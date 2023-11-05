@@ -30,7 +30,7 @@ const getEvents = async () => {
     })
   })
   if (status !== 'success') {
-    router.push('/')
+    router.push('/popup/')
     return
   }
   if (!data.items) return []
