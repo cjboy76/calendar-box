@@ -33,16 +33,8 @@ export default ({ mode }) => {
             baseRoute: '',
           },
           {
-            dir: 'src/options/pages',
-            baseRoute: 'options',
-          },
-          {
             dir: 'src/popup/pages',
             baseRoute: 'popup',
-          },
-          {
-            dir: 'src/content-script/iframe/pages',
-            baseRoute: 'iframe',
           },
         ],
       }),
