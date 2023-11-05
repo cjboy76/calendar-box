@@ -13,12 +13,9 @@ const [major, minor, patch, label = '0'] = version
 export default defineManifest(async (env) => ({
   name: env.mode === 'staging' ? `[INTERNAL] ${name}` : displayName || name,
   description,
-  // up to four numbers separated by dots
   version: `${major}.${minor}.${patch}.${label}`,
-  // semver is OK in "version_name"
   version_name: version,
   manifest_version: 3,
-  // key: 'ekgmcbpgglflmgcfajnglpbcbdccnnje',
   action: {
     default_popup: 'src/popup/index.html',
   },
