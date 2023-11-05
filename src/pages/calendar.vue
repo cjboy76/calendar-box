@@ -57,7 +57,7 @@ const generateEventBlocks = async () => {
 
     const list = eventBlocks[index] ?? []
     const block = {
-      startPercentage: (Number(eventMinute.value) / 60) * 100,
+      startPercentage: Number(eventMinute.value) / 60,
       summary: event.summary,
       creator: event.creator.email,
       htmlLink: event.htmlLink,
@@ -124,12 +124,15 @@ onUnmounted(() => {
           {{ num + currentHour > 24 ? 'AM' : 'PM' }}
         </h3>
       </div>
-      <div class="col-span-4 relative">
+      <div class="col-span-4 flex">
         <div
           v-for="(event, evnetIndex) of eventBlocks[num - 1]"
           :key="event.summary"
-          class="absolute min-w-min left-0 bg-gray-600 text-white p-1 rounded-sm flex justify-center items-center cursor-pointer"
-          :style="{ top: event.startPercentage + '%', zIndex: evnetIndex }"
+          class="min-w-min h-min mx-px bg-gray-600 text-white p-1 rounded-sm flex justify-center items-center cursor-pointer"
+          :style="{
+            marginTop: event.startPercentage * 48 + 'px',
+            zIndex: evnetIndex,
+          }"
           @click.self="htmlLinkHandler(event)"
         >
           {{ event.summary }}
